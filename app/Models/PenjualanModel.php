@@ -22,7 +22,7 @@ use CodeIgniter\Model;
         $quantity = $_POST['quantity'];
         return $this->db->query("INSERT INTO dummy SET tanggal = ?, waktu = ?, nama_mainan = ?, harga=?, quantity=? ", array($tgl, $time, $nama, $harga, $quantity));
     }
-
+ 
     public function insertDataTransaksi()
     {
         date_default_timezone_set("Asia/Jakarta");
@@ -30,6 +30,18 @@ use CodeIgniter\Model;
         $time = date("h:i:sa");
         $tot = $_POST['subtot'];
         return $this->db->query("INSERT INTO t_penjualan SET Tanggal = ?, Waktu=?, Harga=? ", array($tgl, $time, $tot));
+    }
+
+    public function InsertJurnal()
+    {
+        /* BEGIN
+          INSERT INTO jurnal2 (id,kode_akun,tgl_jurnal, waktu, posisi_d_c, nominal,transaksi) VALUES ('411', NEW.Tanggal, NEW.Waktu, 'c', NEW.Harga, 'Penjualan'),('111',NEW.Tanggal, NEW.Waktu, 'd', NEW.Harga, 'Penjualan');
+END*/
+    date_default_timezone_set("Asia/Jakarta");
+        $tgl =  date("Y/m/d");
+        $time = date("h:i:sa");
+        $tot = $_POST['subtot'];
+        return $this->db->query("INSERT INTO jurnal2 (`id`, `kode_akun`, `tgl_jurnal`, `waktu`, `posisi_d_c`, `nominal`, `transaksi`) values (NULL,'411', '$tgl', '$time','c', '$tot','Penjualan'),(NULL,'111', '$tgl', '$time','d', '$tot','Penjualan');");
     }
 
     public function UpdateMainan($id)
@@ -63,7 +75,7 @@ use CodeIgniter\Model;
     {
         return $this->db->query("SELECT monthname(tanggal) as bulan, tanggal, count(tanggal) as tot_penjualan, sum(harga) as penjualan FROM `t_penjualan` where monthname(tanggal) = '$month' group by tanggal;")->getResult();
     }
-
+ 
     public function GETLapDaily($day)
     {
         return $this->db->query("SELECT dayname(tanggal) as hari, tanggal, waktu, count(tanggal) as tot_penjualan, sum(harga) as penjualan FROM `t_penjualan` where tanggal = '$day' GROUP BY waktu;")->getResult();

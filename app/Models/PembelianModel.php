@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class PembelianModel extends Model
 {
     protected $table = 'pembelian';
-
+ 
     //untuk memasukkan data customer
     public function insertData()
     {
@@ -21,11 +21,45 @@ class PembelianModel extends Model
         $nama_mainan = $_POST['nama_mainan'];
         $jumlah_mainan = $_POST['jumlah_mainan'];
         $harga_beli = $_POST['harga_beli'];
-        $total_pembelian = $_POST['total_pembelian'];
+        $total_pembelian = $harga_beli * $jumlah_mainan;
         $hasil = $this->db->query("INSERT INTO pembelian SET tgl_pembelian = ?, nama_vendor=?, nama_mainan=?, jumlah_mainan=?, harga_beli=?, total_pembelian=? ", array($tgl, $nama_vendor, $nama_mainan, $jumlah_mainan, $harga_beli, $total_pembelian));
 
         return $hasil;
     }
+
+    public function InsertJurnal2($tot)
+    {
+        /* BEGIN
+          INSERT INTO jurnal2 (id,kode_akun,tgl_jurnal, waktu, posisi_d_c, nominal,transaksi) VALUES ('411', NEW.Tanggal, NEW.Waktu, 'c', NEW.Harga, 'Penjualan'),('111',NEW.Tanggal, NEW.Waktu, 'd', NEW.Harga, 'Penjualan');
+END*/
+    date_default_timezone_set("Asia/Jakarta");
+        $tgl =  date("Y/m/d");
+        $time = date("h:i:sa");
+       // $tot = $tp;
+        return $this->db->query("INSERT INTO jurnal2 (`id`, `kode_akun`, `tgl_jurnal`, `waktu`, `posisi_d_c`, `nominal`, `transaksi`) values (NULL,'401', '$tgl', '$time','d', '$tot','Pembelian'),(NULL,'111', '$tgl', '$time','c', '$tot','Pembelian');");
+    }
+
+    public function insertData2()
+    {
+        date_default_timezone_set("Asia/Jakarta");
+        $tgl =  date("Y/m/d");
+        $namaVendor = $_POST['nama_vendor'];
+        $nama =  $_POST['nama_mainan'];
+        $harga = $_POST['harga_beli'];
+        $subtot = $_POST['total'];
+        return $this->db->query("INSERT INTO dummy2 SET tgl_pemesanan = ?, nama_vendor = ?, nama_mainan = ?, jumlah_mainan = ?, harga_beli=?, total_pembelian=? ", array($tgl, $namaVendor, $nama, $harga, $subtot));
+    }
+
+    public function DeleteDummy2()
+    {
+        return $this->db->query("DELETE FROM `dummy2`");
+    }
+
+    public function GETDummy2()
+    {
+        return $this->db->query("SELECT * FROM `dummy2`")->getresult();
+    }
+
     public function UbahDataMainan($data,$id)
     {
         return $this->db->query("UPDATE `mainan` SET `stok_mainan` = '$data' WHERE `mainan`.`id_mainan` = $id;");

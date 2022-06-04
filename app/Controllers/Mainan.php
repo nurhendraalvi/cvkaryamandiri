@@ -3,7 +3,7 @@ namespace App\Controllers;
 
 use App\Models\MainanModel;
 use App\Models\VendorModel;
-
+ 
 class Mainan extends BaseController
 {
     
@@ -112,6 +112,15 @@ class Mainan extends BaseController
         //echo view('coa/ListCOA', $data);
         echo view('mainan/listmainanDatatables', $data);
     }
+
+    public function ViewStockCard($id_mainan)
+    {
+        $data['mainan'] = $this->MainanModel->GetStockCard($id_mainan);
+        echo view('HeaderBootstrap');
+        echo view('SidebarBootstrap');
+        echo view('mainan/StockCard', $data);
+    }
+
     public function editmainan($id_mainan)
     {
         $data['mainan'] = $this->MainanModel->editData($id_mainan);

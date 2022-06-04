@@ -30,14 +30,15 @@
           </tr>
        </thead>
        <tbody>
-          <?php foreach($pembelian as $data){ ?>
+          <?php foreach($pembelian as $row){ ?>
           <tr>
-             <td><?php echo $data->nama_vendor; ?></td>
-             <td><?php echo $data->nama_mainan; ?></td>
-             <td><?php echo $data->harga_beli; ?></td>
-             <td>
-              <a href="<?php echo base_url('Pembelian/SellForm/'.$data->id_mainan);?>" class="btn btn-primary btn-sm">Pesan</a>
-              </td>
+             <td><?php echo $row->nama_vendor; ?></td>
+             <td><?php echo $row->nama_mainan; ?></td>
+             <td><?php echo $row->harga_beli; ?></td>
+             <!--<td>
+              <a href="<?php //echo base_url('Pembelian/SellForm/'.$data->id_mainan);?>" class="btn btn-primary btn-sm">Pesan</a>
+              </td>-->
+              <td><a href="#" class="btn btn-info btn-sm btn-edit" data-id="<?= $row->id_mainan;?>" data-vendor="<?= $row->nama_vendor;?>" data-name="<?= $row->nama_mainan;?>" data-price="<?= $row->harga_beli;?>" data-stock="<?= $row->stok_mainan;?>">Pesan</a></td>
           </tr>
          <?php } ?>
        </tbody>
@@ -53,33 +54,90 @@
         </script>      
 
      </div>
-    <!---
-    <div class="row">
-        <?= form_open('Pembelian/inputdata') ?>
+    
+    <!-- Modal Edit Product-->
+            <form action="<?php echo base_url('Pembelian/inputdata'); ?>" method="POST">
+                <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Pesan Produk</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <div class="form-group">
+                            <label>Nama Vendor</label>
+                            <input type="text" class="form-control nama_vendor" name="nama_vendor" placeholder="Product Name">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nama Mainan</label>
+                            <input type="text" class="form-control nama_mainan" name="nama_mainan" placeholder="Product Name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Harga Beli</label>
+                            <input type="text" class="form-control harga_beli" name="harga_beli" placeholder="Product Price">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Jumlah Mainan</label>
+                            <input type="number" class="form-control jumlah_mainan" name="jumlah_mainan" placeholder="Product Price">
+                            <input type="hidden" class="form-control stock" name="stock" placeholder="Product Price">
+                            <input type="hidden" class="form-control id_mainan" name="id_mainan" placeholder="Product Price">
+                        </div>
+                    
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="id_mainan" class="id_mainan">
+                        <input type="hidden" name="stok_mainan" class="stok_mainan">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Beli</button>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </form>
+            <!-- End Modal Edit Product-->
+
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready( function () {
+              $('#users-list').DataTable();
+          } );
+        </script>      
+
+     </div>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function(){
+
+        // get Edit Product
+        $('.btn-edit').on('click',function(){
+            // get data from button edit
+            const id = $(this).data('id');
+            const vendor = $(this).data('vendor');
+            const name = $(this).data('name');
+            const price = $(this).data('price');
+            const stock = $(this).data('stock');
+            // Set data to Form Edit
+            $('.id_mainan').val(id);
+            $('.nama_vendor').val(vendor);
+            $('.nama_mainan').val(name);
+            $('.harga_beli').val(price);
+            $('.stok_mainan').val(stock);
+            // Call Modal Edit
+            $('#editModal').modal('show');
+        });
         
-        <div class="mb-3">
-            <label for="nama_vendor" class="form-label">Nama Vendor</label>
-            <input type="text" class="form-control" id="nama_vendor" name="nama_vendor" value="<?= set_value('nama_vendor') ?>" placeholder="Diisi dengan nama vendor">
-        </div>
-        <div class="mb-3">
-            <label for="nama_mainan" class="form-label">Nama Mainan</label>
-            <input type="text" class="form-control" id="nama_mainan" name="nama_mainan" value="<?= set_value('nama_mainan') ?>" placeholder="Diisi dengan nama vendor">
-        </div>
-        <div class="mb-3">
-            <label for="jumlah_mainan" class="form-label">Jumlah Mainan</label>
-            <input type="text" class="form-control" id="jumlah_mainan" name="jumlah_mainan" value="<?= set_value('jumlah_mainan') ?>" placeholder="Diisi dengan jumlah mainan">
-        </div>
-        <div class="mb-3">
-            <label for="harga_beli" class="form-label">Harga Beli</label>
-            <input type="text" class="form-control" id="Harga Beli" name="harga_beli" value="<?= set_value('harga_beli') ?>" placeholder="Diisi dengan harga_beli">
-        </div>
-        <div class="mb-3">
-            <label for="total_pembelian" class="form-label">Total Pembelian</label>
-            <input type="text" class="form-control" id="total_pembelian" name="total_pembelian" value="<?= set_value('total_pembelian') ?>" placeholder="Diisi dengan pembelian">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div> -->
+    });
+</script>
 
 
 </main>

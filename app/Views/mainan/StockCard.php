@@ -1,6 +1,6 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Data Mainan</h1>
+        <h1 class="h2">Stock Card</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group me-2">
             <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
@@ -13,47 +13,32 @@
         </div>
       </div>
 
-      <canvas class="my-4 w-100" id="myChart" width="900" height="380" hidden></canvas>
-
-      <div class="row">
-        <div class="col">
-            <div class="card">
-              <div class="card-body">
-              <a href="<?= base_url('mainan/inputmainan') ?>" class="btn btn-warning" id="tmbh">Tambah Data Mainan</a>
-              </div>
-            </div>
-        </div>
-      </div> 
+      <canvas class="my-4 w-100" id="myChart" width="900" height="380" hidden></canvas> 
       <br>
       <div class="table-responsive">
       <table id="example" class="table table-striped" style="width:100%">
           <thead>
             <tr>
-              <th>Id Mainan</th>
+              <th>No</th>
+              <th>Tanggal</th>
               <th>Nama Vendor</th>
               <th>Nama Mainan</th>
-              <th>Harga Beli</th>
-              <th>Harga Jual</th>
               <th>Stok Mainan</th>
-              <th>Aksi</th>
+              <th>Keterangan</th>
             </tr>
           </thead>
           <tbody>
                 <?php
+                    $no = 0;
                     foreach($mainan as $row):
                         ?>
                             <tr>
-                                <td><?= $row->id_mainan;?></td>
+                                <td><?= ++$no;?></td>
+                                <td><?= $row->tgl_stock;?></td>
                                 <td><?= $row->nama_vendor;?></td>
                                 <td><?= $row->nama_mainan;?></td>
-                                <td><?= $row->harga_beli;?></td>
-                                <td><?= $row->harga_jual;?></td>
-                                <td><?= $row->stok_mainan;?></td>
-                                <td>
-                                  <a href="<?= base_url('mainan/editmainan/'.$row->id_mainan) ?>" class="btn btn-success">Ubah</a>
-                                  <a onclick="deleteConfirm('<?php echo base_url('mainan/deletemainan/'.$row->id_mainan) ?>')" href="#" class="btn btn-danger" role="button" aria-pressed="true">Hapus</a>
-                                  <a href="<?= base_url('Mainan/ViewStockCard/'.$row->id_mainan) ?>" class="btn btn-success">Stock Card</a>
-                                </td>
+                                <td><?= $row->stok;?></td>
+                                <td><?= $row->keterangan;?></td>
                             </tr>
                         <?php
                     endforeach;    

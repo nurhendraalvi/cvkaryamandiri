@@ -15,7 +15,7 @@ class Laporanpemesanan extends BaseController
 		session_start();
         $this->PemesananModel = new PemesananModel();
         $this->PenjualanModel = new PenjualanModel();
-        $this->GrafikPemesananModel = new GrafikPemesananModel();
+        //$this->GrafikPemesananModel = new GrafikPemesananModel();
         //$this->GrafikPenjualanModel = new GrafikPenjualanModel();
 
         helper('rupiah');
@@ -100,45 +100,6 @@ class Laporanpemesanan extends BaseController
         echo view('Laporanpemesanan/LihatLaporanpemesanan', $data);               
     }
 
-
-    //    //data table pembayaran
-    //    public function laporanpenjualan(){
-    //     //tambahkan pengecekan login
-    //     if(!isset($_SESSION['nama'])){
-    //         return redirect()->to(base_url('home')); 
-    //     }
-    //     $data['penjualan'] = $this->PenjualanModel->getAll();
-    //     $data['tahun'] = $this->GrafikPenjualanModel->getTahunPenjualan();
-    //     //$data['bulan'] = $this->GrafikPenjualanModel->getBulanPenjualan();
-    //     echo view('HeaderBootstrap');
-    //     echo view('SidebarBootstrap');
-    //     echo view('Laporan/LaporanPenjualan', $data);
-    // }
-    // public function bulanpenjualan($tahun){
-    //     if(!isset($_SESSION['nama'])){
-    //         return redirect()->to(base_url('home')); 
-    //     }
-    //     //encode
-    //     echo json_encode($this->GrafikPenjualanModel->getBulanPenjualan($tahun));
-    // }
-    // //cetak kuitansi
-    // public function lihatlaporanpenjualan(){
-        
-    //     //DB::disableQueryLog();
-    //     helper('rupiah');
-    //     if(!isset($_SESSION['nama'])){
-    //         return redirect()->to(base_url('home')); 
-    //     }
-    //     $data['penjualan'] = $this->GrafikPenjualanModel->getLaporanPenjualan($_POST['tahun'], $_POST['bulan'] );
-    //     //$data['kosan'] = $this->kosanmodel->editData($_POST['namakos']);
-    //     $data['tahun'] = $_POST['tahun'];
-    //     $data['bulan'] = $_POST['bulan'];
-    //     echo view('HeaderBootstrap');
-    //     echo view('SidebarBootstrap');
-    //     echo view('Laporan/LihatLaporanpenjualan', $data);               
-    // }
-  
-  
     //data table pembayaran
     public function tabelpembayaran(){
         //tambahkan pengecekan login

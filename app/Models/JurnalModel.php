@@ -68,5 +68,37 @@ class JurnalModel extends Model
     public function deleteData($id){
         $hasil = $this->db->query("DELETE FROM jurnal WHERE id =? ", array($id));
         return $hasil;
+    } 
+
+    public function GetYearJurnal()
+    {
+        return $this->db->query("SELECT year(tgl_jurnal) as tahun, monthname(tgl_jurnal) bulan FROM `jurnal2` GROUP by  monthname(tgl_jurnal), year(tgl_jurnal)")->getResult();
     }
+
+    public function GetYearJurnal2()
+    {
+        return $this->db->query("SELECT year(tgl_jurnal) as tahun FROM `jurnal2` GROUP by year(tgl_jurnal)")->getResult();
+    }
+
+    public function GetJurnal($y, $m)
+    {
+        return $this->db->query("SELECT year(a.tgl_jurnal) as tahun, monthname(a.tgl_jurnal) bulan, a.kode_akun, a.tgl_jurnal, a.posisi_d_c, sum(a.nominal) as nominal, a.transaksi, b.nama_coa FROM jurnal2 a inner join coa b on b.kode_coa = a.kode_akun  where year(a.tgl_jurnal) = '$y' and monthname(a.tgl_jurnal) = '$m' group by kode_akun, tgl_jurnal;")->getResult();
+    }
+
+    public function GetJurnal2($y, $m)
+    {
+        return $this->db->query("SELECT year(a.tgl_jurnal) as tahun, monthname(a.tgl_jurnal) bulan, a.kode_akun, a.tgl_jurnal, a.posisi_d_c, sum(a.nominal) as nominal, a.transaksi, b.nama_coa FROM jurnal2 a inner join coa b on b.kode_coa = a.kode_akun  where year(a.tgl_jurnal) = '$y' and month(a.tgl_jurnal) = '$m' group by kode_akun, tgl_jurnal;")->getResult();
+    }
+
+    public function GetBukuBesar($y, $m, $k)
+    {
+        return $this->db->query("SELECT year(a.tgl_jurnal) as tahun, monthname(a.tgl_jurnal) bulan, a.kode_akun, a.tgl_jurnal, a.posisi_d_c, sum(a.nominal) as nominal, a.transaksi, b.nama_coa FROM jurnal2 a inner join coa b on b.kode_coa = a.kode_akun  where year(a.tgl_jurnal) = '$y' and monthname(a.tgl_jurnal) = '$m' and a.kode_akun = '$k' group by kode_akun, tgl_jurnal;")->getResult();
+    }
+
+    public function GetBukuBesar2($y, $m, $k)
+    {
+        return $this->db->query("SELECT year(a.tgl_jurnal) as tahun, monthname(a.tgl_jurnal) bulan, a.kode_akun, a.tgl_jurnal, a.posisi_d_c, sum(a.nominal) as nominal, a.transaksi, b.nama_coa FROM jurnal2 a inner join coa b on b.kode_coa = a.kode_akun  where year(a.tgl_jurnal) = '$y' or month(a.tgl_jurnal) = '$m' and a.kode_akun = '$k' group by kode_akun, tgl_jurnal;")->getResult();
+    }
+
+    
 }

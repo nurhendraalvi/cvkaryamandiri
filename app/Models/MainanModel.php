@@ -53,6 +53,24 @@ class MainanModel extends Model
         $this->db->where($where);
         $this->db->update($table,$data);
     }
+
+    
+    public function InsertMasuk($id, $nm, $stock)
+    {
+        $tgl =  date("Y/m/d");
+        return $this->db->query("INSERT INTO `stock_card` (`id`, `tgl_stock`, `id_mainan`, `nama_mainan`, `stock`, `keterangan`) VALUES (NULL, '$tgl', '$id', '$nm', '$stock', 'stock masuk')");
+    }
+
+    public function InsertKeluar($id, $nm, $stock)
+    {
+        $tgl =  date("Y/m/d");
+        return $this->db->query("INSERT INTO `stock_card` (`id`, `tgl_stock`, `id_mainan`, `nama_mainan`, `stock`, `keterangan`) VALUES (NULL, '$tgl', '$id', '$nm', '$stock', 'stock keluar')");
+    }
+
+    public function GetStockCard($id)
+    {
+        return $this->db->query("SELECT a.tgl_stock, a.id_mainan, a.nama_mainan, sum(a.stock) as stok, a.keterangan, b.nama_vendor FROM stock_card a inner join mainan b on a.id_mainan = b.id_mainan where a.id_mainan = '$id' GROUP BY a.keterangan, a.tgl_stock;")->getresult();
+    } 
     
 
 }

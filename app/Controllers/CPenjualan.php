@@ -4,6 +4,7 @@
  */
  
 namespace App\Controllers;
+use App\Models\MainanModel;
 
 use App\Models\PenjualanModel;
 class CPenjualan extends BaseController
@@ -14,6 +15,7 @@ class CPenjualan extends BaseController
 		//parent::__construct();
 		//$this->load->model('PenjualanModel');
 		$this->PenjualanModel = new PenjualanModel();
+		$this->MainanModel = new MainanModel();
 	}
 
 	public function PenjualanView()
@@ -28,7 +30,10 @@ class CPenjualan extends BaseController
 	{
 		//dummy
 		$id = $_POST['id_mainan'];
+		$nm = $_POST['nama_mainan'];
+        $stock = $_POST['quantity'];
 		$this->PenjualanModel->UpdateMainan($id);
+		$this->MainanModel->InsertKeluar($id, $nm, $stock);
 		$this->PenjualanModel->insertData();
 		return redirect()->to(base_url('CPenjualan/PenjualanView'));
 	}
@@ -45,8 +50,9 @@ class CPenjualan extends BaseController
 	{
 		//dummy
 		//$id = $_POST['id_mainan'];
-		//$this->PenjualanModel->DeleteDummy();
+		$this->PenjualanModel->DeleteDummy();
 		$this->PenjualanModel->insertDataTransaksi();
+		$this->PenjualanModel->InsertJurnal();
 		return redirect()->to(base_url('CPenjualan/PenjualanView'));
 	}
 }

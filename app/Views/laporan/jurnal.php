@@ -7,17 +7,60 @@ function number($angka)
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Jurnal Umum</h1>
+        <?php foreach ($jurnal as $key) { 
+                $bln = $key->bulan;
+                $yr = $key->tahun;
+             } ?>
+
+        <h1 class="h2">Jurnal Umum <?php echo $bln." ".$yr; ?></h1>
+         
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
                 <a href="<?= base_url('laporan/print_jurnal') ?>" type="button" class="btn btn-sm btn-outline-secondary me-2">Cetak Jurnal</a>
             </div>
         </div>
     </div>
-
+    <center>
+             <div class="row">
+             <table><tr><td>
+                <form action="<?php echo base_url('Laporan/jurnal2'); ?>" method="POST">
+                    <table align="center">
+                        <tr>
+                            <td>
+                                <select name="year" id="inputState" class="form-control">
+                                                
+                                    <?php 
+                                        foreach ($ketTahun as $key) {
+                                            echo "<option value='$key->tahun'>".$key->tahun."</option>";
+                                        }
+                                    ?>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="month" id="inputState" class="form-control">
+                                                
+                                    <?php 
+                                        foreach ($ketTahun as $key) {
+                                            echo "<option value='$key->bulan'>".$key->bulan."</option>";
+                                        }
+                                    ?>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="submit" name="submit" class="btn btn-success btn-user btn-block">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </td></tr></table>
+         </div>
+         </center>
+         <br>
+    <!-- edit -->
     <table class="table table-bordered text-center">
         <thead>
             <tr>
+                <th>No</th>
                 <th scope="col">Tanggal</th>
                 <th scope="col">Nama Akun</th>
                 <th scope="col">Ref</th>
@@ -29,21 +72,23 @@ function number($angka)
             <?php
             $debit = 0;
             $kredit = 0;
+            $no = 1;
             foreach ($jurnal as $data) : ?>
                 <tr>
-                    <td><?= $data['tgl_transaksi'] ?></td>
-                    <td><?= $data['nama_akun'] ?></td>
-                    <td><?= $data['no_reff'] ?></td>
-                    <?php if ($data['jenis_saldo'] == 'debit') { ?>
-                        <td><?= number($data['saldo']) ?></td>
+                    <td><?php echo $no++; ?></td>
+                    <td><?php echo $data->tgl_jurnal; ?></td>
+                    <td><?php echo $data->nama_coa; ?></td>
+                    <td><?php echo $data->kode_akun; ?></td>
+                    <?php if ($data->posisi_d_c == 'd') { ?>
+                        <td><?= number($data->nominal) ?></td>
                         <td></td>
                     <?php
-                        $debit = $debit + $data['saldo'];
-                    } elseif ($data['jenis_saldo'] == 'kredit') { ?>
+                        $debit = $debit + $data->nominal;
+                    } elseif ($data->posisi_d_c == 'c') { ?>
                         <td>-</td>
-                        <td><?= number($data['saldo']) ?></td>
+                        <td><?= number($data->nominal) ?></td>
                     <?php
-                        $kredit = $kredit + $data['saldo'];
+                        $kredit = $kredit + $data->nominal;
                     } ?>
                 </tr>
             <?php
@@ -51,7 +96,7 @@ function number($angka)
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="3">Jumlah Total</td>
+                <td colspan="4">Jumlah Total</td>
                 <td><?= number($debit) ?></td>
                 <td><?= number($kredit) ?></td>
             </tr>

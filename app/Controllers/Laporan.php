@@ -41,11 +41,24 @@ class Laporan extends BaseController
 
 		return view('laporan/laporan_pemesanan', $data);
 	}
-
+	//edit
 	public function jurnal()
 	{
-		$data['jurnal'] = $this->JurnalModel->getAll();
+		$year = date('Y');
+		$month = date('m');
+		$data['jurnal'] = $this->JurnalModel->GetJurnal2($year, $month);
+		$data['ketTahun'] = $this->JurnalModel->GetYearJurnal();
+		echo view('HeaderBootstrap');
+		echo view('SidebarBootstrap');
+		echo view('laporan/jurnal', $data);
+	} //edit
 
+	public function jurnal2()
+	{
+		$year = $_POST['year'];
+		$month = $_POST['month'];
+		$data['jurnal'] = $this->JurnalModel->GetJurnal($year, $month);
+		$data['ketTahun'] = $this->JurnalModel->GetYearJurnal();
 		echo view('HeaderBootstrap');
 		echo view('SidebarBootstrap');
 		echo view('laporan/jurnal', $data);
@@ -62,12 +75,27 @@ class Laporan extends BaseController
 
 	public function bukubesar()
 	{
-		$data['jurnal'] = $this->JurnalModel->getAll();
-
+		$year = date('Y');
+		$month = date('m');
+		$data['year'] = $this->JurnalModel->GetYearJurnal2();
+		$data['BigBook'] = $this->JurnalModel->GetBukuBesar2($year, $month, '111');
 		echo view('HeaderBootstrap');
 		echo view('SidebarBootstrap');
-		echo view('laporan/buku_besar', $data);
+		echo view('laporan/buku_besar2', $data);
 	}
+
+	public function bukubesar2()
+	{
+		$year = $_POST['tahun'];
+		$month = $_POST['bulan'];
+		$akun = $_POST['akun'];
+		$data['year'] = $this->JurnalModel->GetYearJurnal2();
+		$data['BigBook'] = $this->JurnalModel->GetBukuBesar2($year, $month, $akun);
+		echo view('HeaderBootstrap');
+		echo view('SidebarBootstrap');
+		echo view('laporan/buku_besar2', $data);
+	}
+
 
 	public function print_jurnal()
 	{
