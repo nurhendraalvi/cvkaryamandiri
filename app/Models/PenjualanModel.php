@@ -41,7 +41,7 @@ END*/
         $tgl =  date("Y/m/d");
         $time = date("h:i:sa");
         $tot = $_POST['subtot'];
-        return $this->db->query("INSERT INTO jurnal2 (`id`, `kode_akun`, `tgl_jurnal`, `waktu`, `posisi_d_c`, `nominal`, `transaksi`) values (NULL,'411', '$tgl', '$time','c', '$tot','Penjualan'),(NULL,'111', '$tgl', '$time','d', '$tot','Penjualan');");
+        return $this->db->query("INSERT INTO jurnal2(`id`, `kode_akun`, `tgl_jurnal`, `waktu`, `posisi_d_c`, `nominal`, `transaksi`) values (NULL,'411', '$tgl', '$time','c', '$tot','Penjualan'),(NULL,'111', '$tgl', '$time','d', '$tot','Penjualan');");
     }
 
     public function UpdateMainan($id)

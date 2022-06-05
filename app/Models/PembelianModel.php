@@ -29,9 +29,6 @@ class PembelianModel extends Model
 
     public function InsertJurnal2($tot)
     {
-        /* BEGIN
-          INSERT INTO jurnal2 (id,kode_akun,tgl_jurnal, waktu, posisi_d_c, nominal,transaksi) VALUES ('411', NEW.Tanggal, NEW.Waktu, 'c', NEW.Harga, 'Penjualan'),('111',NEW.Tanggal, NEW.Waktu, 'd', NEW.Harga, 'Penjualan');
-END*/
     date_default_timezone_set("Asia/Jakarta");
         $tgl =  date("Y/m/d");
         $time = date("h:i:sa");

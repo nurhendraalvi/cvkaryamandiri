@@ -44,19 +44,19 @@ class Pembelian extends BaseController
     {
                 $id = $_POST['id_mainan'];
                 $nm = $_POST['nama_mainan'];
-                $stock = $_POST['stock'];
+                $stock = $_POST['stok_mainan'];
                 $jml = $_POST['jumlah_mainan'];
                 $harga_beli = $_POST['harga_beli'];
                 $data = (int)$stock + (int)$jml;
                 $tp = (int)$harga_beli * (int)$jml;
-                $this->MainanModel->InsertMasuk($id, $nm, $jml);
+                
                 $this->PembelianModel->UbahDataMainan($data,$id);
                 $this->PembelianModel->InsertJurnal2($tp);
                 $hasil = $this->PembelianModel->insertData();
                 //$total_pembelian = $_POST['total_pembelian'];
-
-                $debit = $this->JurnalModel->inputjurnal('401', 'Pembelian', 'debit', $tp);
-                $kredit = $this->JurnalModel->inputjurnal('201', 'HUtang', 'kredit', $tp);
+                $this->MainanModel->InsertMasuk($id, $nm, $jml);
+                //$debit = $this->JurnalModel->inputjurnal('401', 'Pembelian', 'debit', $tp);
+                //$kredit = $this->JurnalModel->inputjurnal('201', 'HUtang', 'kredit', $tp);
                 
 
                 return redirect()->to(base_url('Pembelian/listpembelian'));

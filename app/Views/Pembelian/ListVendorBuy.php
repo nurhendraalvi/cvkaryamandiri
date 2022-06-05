@@ -35,6 +35,7 @@
              <td><?php echo $row->nama_vendor; ?></td>
              <td><?php echo $row->nama_mainan; ?></td>
              <td><?php echo $row->harga_beli; ?></td>
+             <td><?php echo $row->stok_mainan; ?></td>
              <!--<td>
               <a href="<?php //echo base_url('Pembelian/SellForm/'.$data->id_mainan);?>" class="btn btn-primary btn-sm">Pesan</a>
               </td>-->
@@ -86,7 +87,6 @@
                         <div class="form-group">
                             <label>Jumlah Mainan</label>
                             <input type="number" class="form-control jumlah_mainan" name="jumlah_mainan" placeholder="Product Price">
-                            <input type="hidden" class="form-control stock" name="stock" placeholder="Product Price">
                             <input type="hidden" class="form-control id_mainan" name="id_mainan" placeholder="Product Price">
                         </div>
                     
